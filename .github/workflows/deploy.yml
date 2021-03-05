@@ -25,7 +25,7 @@ jobs:
 
           # update
           git checkout prod
-          git pull
+          git reset --hard origin/prod
 
           # restart server
           touch ./tmp/restart.txt
