@@ -1,0 +1,31 @@
+name: deploy
+
+on:
+  push:
+    branches:
+    - prod
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Pull on and restart server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.VWIS_HOST }}
+        username: ${{ secrets.VWIS_USERNAME }}
+        key: ${{ secrets.VWIS_KEY }}
+        passphrase: ${{ secrets.VWIS_PASSPHRASE }}
+        script: |
+          # print info
+          whoami
+
+          # go to repo dir
+          cd ./public_html/justillini
+
+          # update
+          git checkout prod
+          git pull
+
+          # restart server
+          touch ./tmp/restart.txt
